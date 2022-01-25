@@ -5,13 +5,14 @@ object PasswordChecker {
   val minimumPasswordLength: Int = 5
 
   def validate(password: String): Either[List[Throwable], String] = {
-    var left = List[Throwable]()
-    if (minNumberOfChars(password, minimumPasswordLength).isLeft) left = left ::: List(InvalidLength)
-    if (containsUpperCase(password).isLeft) left = left ::: List(MissingUppercase)
-    if (containsLowerCase(password).isLeft) left = left ::: List(MissingLowercase)
-    if (containsNumber(password).isLeft) left = left ::: List(MissingNumber)
+    val errors = List(
+      minNumberOfChars(password, minimumPasswordLength), containsUpperCase(password),
+      containsLowerCase(password), containsNumber(password)
+    ).collect{
+      case Left(error) => error
+    }
 
-    if (left.length == 0) Right(password) else Left(left)
+    if (errors.isEmpty) Right(password) else Left(errors)
   }
 
   private def minNumberOfChars(password: String, length: Int): Either[Throwable, String] =
