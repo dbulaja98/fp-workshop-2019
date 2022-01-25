@@ -9,7 +9,7 @@ object EmojifyText {
 
   def emojify(sentence: String): String = {
     val words      = sentence.split(" +").toList
-    val emojiWords = words.map(word => emojiOrWord(word.filter(isLetter(_))))
+    val emojiWords = words.map(word => emojiOrWord(word.filter(isLetter)))
     emojiWords.map(_ + " ").reduce(_ + _).trim
   }
 
