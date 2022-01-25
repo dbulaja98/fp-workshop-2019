@@ -8,9 +8,9 @@ import scala.util.Try
 object EmojifyText {
 
   def emojify(sentence: String): String = {
-    val words = sentence.split(" +").toList
-    val emojiWords = words.map(word => emojiOrWord(word.filter(chr => isLetter(chr))))
-    emojiWords.map(word => word + " ").reduce(_ + _).trim
+    val words      = sentence.split(" +").toList
+    val emojiWords = words.map(word => emojiOrWord(word.filter(isLetter(_))))
+    emojiWords.map(_ + " ").reduce(_ + _).trim
   }
 
   private def emojiOrWord(word: String): String =
